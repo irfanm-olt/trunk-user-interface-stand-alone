@@ -1,0 +1,16 @@
+/**
+ * CREATE CUSTOMER
+ */
+ export const CREATE_CUSTOMER = "customer/CREATE_CUSTOMER";
+ export const CREATE_CUSTOMER_SUCCESS = "customer/CREATE_CUSTOMER_SUCCESS";
+ export const CREATE_CUSTOMER_ERROR = "customer/CREATE_CUSTOMER_ERROR";
+ export const LOAD_CUSTOMER = "customer/LOAD_CUSTOMER";
+ export const LOAD_CUSTOMER_SUCCESS = "customer/LOAD_CUSTOMER_SUCCESS";
+ export const LOAD_CUSTOMER_ERROR = "customer/LOAD_CUSTOMER_ERROR";
+
+ /**
+  * DELETE CUSTOMER
+  */
+ export const DELETE_CUSTOMER = "customer/DELETE_CUSTOMER";
+ export const DELETE_CUSTOMER_SUCCESS = "customer/DELETE_CUSTOMER_SUCCESS";
+ export const DELETE_CUSTOMER_ERROR = "customer/DELETE_CUSTOMER_ERROR";

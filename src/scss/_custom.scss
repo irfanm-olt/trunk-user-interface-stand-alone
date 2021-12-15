@@ -1,0 +1,209 @@
+// Here you can add other styles
+.hintText {
+  color: #000;
+}
+.warning-text {
+  color: rgb(255, 0, 0);
+}
+
+.c-sidebar {
+  background: #fafafc;
+  color: #000;
+}
+
+.c-sidebar .c-sidebar-nav-title {
+  color: #000;
+}
+
+.c-sidebar .c-sidebar-brand {
+  background: unset;
+}
+
+.c-sidebar .c-sidebar-nav-link,
+.c-sidebar .c-sidebar-nav-dropdown-toggle {
+  color: #000;
+}
+
+.c-sidebar .c-sidebar-nav-link.c-active,
+.c-sidebar .c-active.c-sidebar-nav-dropdown-toggle {
+  color: #FFF;
+  background-color: #00b78b;
+
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff !important;
+  background: #00b78b 0% 0% no-repeat padding-box !important;
+  border-color: #00b78b !important;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #00b78b;
+  border-color: #00b78b;
+}
+
+.price-button {
+  color: #fff;
+  background: #ff951c 0% 0% no-repeat padding-box;
+  border-color: #ff951c;
+}
+.no-top-border {
+  border-top: unset !important;
+}
+.customTable {
+  th {
+    background-color: #eee;
+    border-top: unset;
+  }
+}
+.c-sidebar-nav-link,
+.c-sidebar-nav-dropdown-toggle {
+  padding: 1rem 1rem;
+}
+.action-button {
+  border: none;
+  background: no-repeat;
+  height: 25px;
+  width: 25px;
+  margin-right: 10px;
+}
+.list-table td {
+  button {
+    border: none;
+    background-color:unset;
+  }
+}
+svg,
+button {
+  outline: none !important;
+}
+.page-item.active .page-link {
+  background-color: #00b78b;
+  border-color: #00b78b;
+}
+.page-link {
+  color: #00b78b;
+}
+.page-link:focus {
+  box-shadow: unset;
+}
+.c-app {
+  background-color: #fff;
+}
+.card {
+  border: unset;
+}
+.c-sidebar {
+  a {
+    font-size: 1rem;
+  }
+}
+.login-container {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  .logo {
+    margin-top: 2rem;
+  }
+}
+.login-button {
+  background-color: #00b78b;
+  width: 100%;
+  color: #fff;
+}
+.c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon, .c-sidebar .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon
+{
+  color: #00B78B;
+  &:hover{
+    color: #fff;
+  }
+}
+.c-sidebar .c-sidebar-nav-link:hover, .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+  background-color: #00B78B;
+}
+.profileUploader, .tradeLicenseUploader {
+  width: 100px;
+  height: 100px;
+  background-color: #cbc8c8;
+  border: 1px solid rgb(53, 53, 53);
+  cursor: pointer;
+}
+.icon-container {
+  text-align: center;
+  padding: 15px;
+}
+.icon-text {
+  font-size: 10px;
+}
+.profile-upload-button {
+  display: none;
+}
+.profile-image-preview-container {
+  max-width: 100px;
+  max-height: 100px;
+}
+#trade-license-files {
+  display: none;
+}
+.customer-create-button {
+  width: 50%;
+} 
+.profile-image-preview-container {
+  width: 100px;
+  height: 100px;
+  background-color: #cbc8c8;
+  border: 1px solid #000;
+  position: relative;
+  margin-right: 10px;
+
+  img {
+    max-width: 98px;
+    max-height: 98px;
+    object-fit: contain;
+  }
+  i {
+    color: rgb(255, 0, 0);
+  }
+}
+.profile-close-container {
+  position: absolute;
+  top: 0;;
+  right: 0.1rem;
+  cursor: pointer;
+}
+.profile-container {
+  display: flex;
+}
+
+.expandable-row {
+  padding: 30px;
+  transition: transform .3s; /* Animation */
+  margin: 0 auto;
+  cursor: pointer;
+  &:hover{
+    transform: scale(1.03);
+    background-color: #eee;
+  }
+}
+
+.table thead th{
+  border-bottom: unset;
+}
+
+.table-striped tbody tr:nth-of-type(odd):hover {
+  background-color: #eee;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #fff;
+}
+
+
+.table-bordered th, .table-bordered td {
+  border: unset;
+}
+
+.page-not-found-error {
+  font-size: 2rem;
+}
