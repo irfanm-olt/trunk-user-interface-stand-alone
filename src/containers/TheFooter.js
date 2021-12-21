@@ -5,8 +5,7 @@ const TheFooter = () => {
   return (
     <CFooter fixed={false}>
       <div className="mfs-auto">
-        <span className="mr-1">Powered by</span>
-        <a href="https://coreui.io/react" target="_blank" rel="noopener noreferrer">Trunk</a>
+        <span className="mr-1">Powered by Trunk</span>
       </div>
     </CFooter>
   )

@@ -7,6 +7,15 @@ export function createCustomer( formData ) {
     }
 }
 
+/**
+ * update customer
+ */
+export function updateCustomer( formData ) {
+    return {
+        type: Actions.UPDATE_CUSTOMER,
+        formData
+    }
+}
 
  export function loadCustomer({ query }) {
     return {
@@ -18,6 +27,13 @@ export function createCustomer( formData ) {
 export function deleteCustomer({id}) {
     return {
         type: Actions.DELETE_CUSTOMER,
+        id
+    }
+}
+
+export function loadCustomerbyID({id}) {
+    return {
+        type: Actions.LOAD_CUSTOMER_BY_ID,
         id
     }
 }

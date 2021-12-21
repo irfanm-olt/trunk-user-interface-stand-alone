@@ -80,22 +80,59 @@ class Make extends Component {
     this.loadCar();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate( prevProps ) {
+    const { 
+      createSuccess,
+      createError,
+      deleteSuccess,
+      deleteError,
+      updateSuccess,
+      updateError
+    } = this.props;
+    const { 
+      createSuccess: prevCreateSuccess, 
+      createError: prevcreateError,
+      deleteSuccess: prevdeleteSuccess ,
+      deleteError: prevdeleteError,
+      updateSuccess: prevupdateSuccess,
+      updateError: prevupdateError
+    } = prevProps;
+
+    // create success
+    if(createSuccess && createSuccess !== prevCreateSuccess) {
+        NotificationManager.success("Car created successfully");
+    }
+
+    // create success
+    if(createError !== null && createError !== prevcreateError) {
+        NotificationManager.error(createError);
+    }
+
+    // delete success
+    if(deleteSuccess && deleteSuccess !== prevdeleteSuccess) {
+        NotificationManager.warning("Car deleted successfully");
+    }
+
+    // delete error
+    if(deleteError && deleteError !== prevdeleteError) {
+        NotificationManager.error(deleteError);
+    }
+    // update success
+    if(updateSuccess && updateSuccess !== prevupdateSuccess) {
+      NotificationManager.success("Car updated successfully");
+    }
+
+    // update error
+    if(updateError && updateError !== prevupdateError) {
+      NotificationManager.error(updateError);
+    }
     this.loadCar();
   }
 
   loadCar = () => {
     const params = new URLSearchParams(this.props.location.search);
     const page = parseInt(params.get('page')) || 1;
-    if(this.props.pager.totalItems === 0)
-    {
-      var currentPage = 1;
-    }
-    else
-    {
-      var currentPage = this.props.pager.currentPage;
-    }
-    if (page !== currentPage) {
+    if (page !== this.props.pager.currentPage) {
       const query = {};
       query.pages = page;
       this.props.loadCar({ query });
@@ -180,7 +217,7 @@ class Make extends Component {
                       </CCol>
                   </CFormGroup>
                 </CForm>
-                <table className="table table-hover table-bordered table-striped">
+                <table className="table table-striped">
                     <thead>
                       <tr>
                           <th>
@@ -199,7 +236,7 @@ class Make extends Component {
                     </thead>
                     <tbody>
                       {car ? car.map((item, index) => 
-                        <tr>
+                        <tr className='expandable-row'>
                             <td>{pager.pages && pager.pages.length ? pager.startIndex + index +1: index+1}</td>
                             <td>{item.CarName}</td>
                             <td>
@@ -264,7 +301,13 @@ Make.propTypes = {
 const mapStateToProps = state => ({
   manufacture: state.car.manufactures,
   car: state.car.cars,
-  pager: state.car.pager
+  pager: state.car.pager,
+  createSuccess: state.car.createSuccess,
+  createError: state.car.createError,
+  deleteSuccess: state.car.deleteSuccess,
+  deleteError: state.car.deleteError,
+  updateSuccess: state.car.updateSuccess,
+  updateError: state.car.updateError
 });
 
 

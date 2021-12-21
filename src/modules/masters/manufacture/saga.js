@@ -74,8 +74,8 @@ function* updateManufactureSaga({datas}) {
         })
     } catch (error) {
         yield put({
-            type: Actions.UPDATE_MANUFACTURE,
-            updateError: "can't update record!"
+            type: Actions.UPDATE_MANUFACTURE_ERROR,
+            updateError: "Same record exist in list!"
         })
     }
 }

@@ -11,6 +11,9 @@ import { loadCustomer, deleteCustomer } from 'src/modules/customer/actions';
 import CIcon from '@coreui/icons-react';
 import { Link } from 'react-router-dom';
 
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
 class ListCustomer extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +27,32 @@ class ListCustomer extends Component {
     }  
   } 
 
-  componentDidUpdate() {
+  edit = (id) => {
+    if (window.confirm("Are you sure?")) {  
+      this.props.history.push(`./edit-customer/${id}`); 
+    }  
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { 
+      deleteSuccess,
+      deleteError,
+    } = this.props;
+    const { 
+      deleteSuccess: prevdeleteSuccess ,
+      deleteError: prevdeleteError,
+    } = prevProps;
+
+    // delete success
+    if(deleteSuccess && deleteSuccess !== prevdeleteSuccess) {
+        NotificationManager.warning("Customer deleted successfully");
+    }
+
+    // delete error
+    if(deleteError && deleteError !== prevdeleteError) {
+        NotificationManager.error(deleteError);
+    }
+
     this.loadCustomer();
   }
 
@@ -44,14 +72,15 @@ class ListCustomer extends Component {
 
   render() {
     const { data, pager } = this.props;
-    console.log("Pager", pager);
+    console.log(data);
     return (
       <>
         <CRow>
+        <NotificationContainer/>
           <CCol xs="12" lg="12">
             <CCard>
               <CCardBody>
-                <table className="table table-hover table-bordered table-striped">
+                <table className="table table-striped">
                   <thead>
                     <tr>
                         <th>#</th>
@@ -65,16 +94,16 @@ class ListCustomer extends Component {
                   <tbody>
                     { data ? data.map((item, index) => {
                         return(
-                          <tr>
+                          <tr className='expandable-row'>
                             <td>{pager.pages && pager.pages.length ? pager.startIndex + index +1: index+1}</td>
                             <td>{ item.CompanyName }</td>
                             <td>{ item.ContactpersonFirstname + 	item.ContactpersonLastname }</td>
                             <td>{ item.ContactpersonMobile }</td>
                             <td>{ item.ContactpersonEmail }</td>
                             <td>
-                                {/* <button className="action-button">
-                                  <CIcon onClick={() => this.edit(item)} name="cil-pencil" height="20" alt="Edit"/>
-                                </button> */}
+                                <button className="action-button">
+                                  <CIcon onClick={() => this.edit(item.ID)} name="cil-pencil" height="18" alt="Edit"/>
+                                </button>
                                 <button className="action-button">
                                   <CIcon onClick={() => this.delete(item.ID)} name="cil-trash" height="18" alt="Delete"/>
                                 </button>
@@ -129,7 +158,9 @@ ListCustomer.propTypes = {
 };
 const mapStateToProps = state => ({
   data: state.customer.customers,
-  pager: state.customer.pager
+  pager: state.customer.pager,
+  deleteSuccess: state.customer.deleteSuccess,
+  deleteError: state.customer.deleteError,
 });
 export default connect(
   mapStateToProps,

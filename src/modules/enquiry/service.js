@@ -31,6 +31,10 @@ export const addPartNumber = ({ datas }) =>
 export const loadEnquiryPartHeader = ({ enquiryID }) => 
     request.post(`/enquiryPartHeaders/loadEnquiryPartHeader`, { enquiryID });
 
+// load part headers
+export const loadPartHeader = ({ enquiryID }) => 
+    request.post(`/enquiryPartHeaders/loadPartHeader`, { enquiryID });
+
 // get manufacture id by enquiry id
 export const getManufactureByID = ({ enquiryID }) => 
     request.post(`/enquiryCarDetails/getManufactureByID`, { enquiryID })
@@ -39,9 +43,17 @@ export const getManufactureByID = ({ enquiryID }) =>
 export const addEnquiryPartHeader = ({ datas }) =>
     request.post(`/enquiryPartHeaders/createEnquiryPartHeader`, { datas });
 
+// add enquiry part header
+export const updateEnquiryPartHeader = ({ datas }) =>
+    request.post(`/enquiryPartHeaders/updateEnquiryPartHeader`, { datas });
+
 // add price 
 export const addpartPrice = ({ datas }) =>
     request.post(`/enquiryPartDetails/createEnquiryPartDeatils`, { datas });
+
+// delete part price
+export const deletepartPrice = ({ id }) =>
+    request.post(`/enquiryPartDetails/deleteEnquiryPartDeatils`, id)
 
 // load part details
 export const loadEnquiryPartDetails = ({ partheaderID }) => 

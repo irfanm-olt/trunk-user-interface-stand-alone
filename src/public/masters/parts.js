@@ -13,7 +13,7 @@ import CIcon from '@coreui/icons-react';
 import PropTypes from "prop-types";
 import CreatableSelect from 'react-select/creatable';
 import { connect } from "react-redux";
-import { NotificationManager } from 'react-notifications';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { 
   createPart, 
@@ -86,7 +86,52 @@ class Part extends Component {
     this.loadPart();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate( prevProps ) {
+    const { 
+      createSuccess,
+      createError,
+      deleteSuccess,
+      deleteError,
+      updateSuccess,
+      updateError
+    } = this.props;
+    const { 
+      createSuccess: prevCreateSuccess, 
+      createError: prevcreateError,
+      deleteSuccess: prevdeleteSuccess ,
+      deleteError: prevdeleteError,
+      updateSuccess: prevupdateSuccess,
+      updateError: prevupdateError
+    } = prevProps;
+
+    // create success
+    if(createSuccess && createSuccess !== prevCreateSuccess) {
+        NotificationManager.success("Part created successfully");
+    }
+
+    // create success
+    if(createError !== null && createError !== prevcreateError) {
+        NotificationManager.error(createError);
+    }
+
+    // delete success
+    if(deleteSuccess && deleteSuccess !== prevdeleteSuccess) {
+        NotificationManager.warning("Part deleted successfully");
+    }
+
+    // delete error
+    if(deleteError && deleteError !== prevdeleteError) {
+        NotificationManager.error(deleteError);
+    }
+    // update success
+    if(updateSuccess && updateSuccess !== prevupdateSuccess) {
+      NotificationManager.success("Part updated successfully");
+    }
+
+    // update error
+    if(updateError && updateError !== prevupdateError) {
+      NotificationManager.error(updateError);
+    }
     this.loadPart();
   }
 
@@ -129,6 +174,7 @@ class Part extends Component {
     return (
       <>
         <CRow>
+        <NotificationContainer/>
           <CCol xs="12" lg="12">
             <CCard>
               <CCardBody>
@@ -167,7 +213,7 @@ class Part extends Component {
                       </CCol>
                   </CFormGroup>
                 </CForm>
-                <table className="table table-hover table-bordered table-striped text-center">
+                <table className="table table-striped">
                     <thead>
                       <tr>
                           <th>
@@ -186,7 +232,7 @@ class Part extends Component {
                     </thead>
                     <tbody>
                       {part ? part.map((item, index) => 
-                        <tr>
+                        <tr className='expandable-row'>
                             <td>{index+1}</td>
                             <td>{item.Name}</td>
                             <td>
@@ -251,7 +297,13 @@ Part.propTypes = {
 const mapStateToProps = state => ({
   partSection: state.part.partSection,
   part: state.part.parts,
-  pager: state.part.pager
+  pager: state.part.pager,
+  createSuccess: state.part.createSuccess,
+  createError: state.part.createError,
+  deleteSuccess: state.part.deleteSuccess,
+  deleteError: state.part.deleteError,
+  updateSuccess: state.part.updateSuccess,
+  updateError: state.part.updateError
 });
 
 

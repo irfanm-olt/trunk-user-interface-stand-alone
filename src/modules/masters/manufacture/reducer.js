@@ -1,10 +1,13 @@
 import * as Actions from './constants';
 const initialState = {
-    loading: false,
     manufactures: [],
-    errorData:'',
-    successData: false,
-    pager: {}
+    pager: {},
+    createError: null,
+    createSuccess: false,
+    deleteError: null,
+    deleteSuccess: false,
+    updateError: null,
+    updateSuccess: false,
 }
 
 export default function manufactureReducer(state = initialState, action) {
@@ -15,62 +18,61 @@ export default function manufactureReducer(state = initialState, action) {
         case Actions.ADD_MANUFACTURE:
             return {
                 ...state,
-                loading: true,
-                errorData: '',
-                successData: false,
+                createSuccess: false,
+                createError: null
             };
         case Actions.ADD_MANUFACTURE_SUCCESS:
             return {
                 ...state,
                 pager: state.manufactures.concat(action.pager),
-                loading: false,
-                errorData: '',
-                successData: true
+                createSuccess: true,
+                createError: null
             };
         case Actions.ADD_MANUFACTURE_ERROR:
             return {
                 ...state,
-                errorData: action.payload,
-                loading: false,
-                successData: false,
+                createSuccess: false,
+                createError: action.payload
             };
         /**
          * load manufacture
          */
         case Actions.LOAD_MANUFACTURE:
             return {
-                ...state,
-                loading: true,
+                ...state
             };
         case Actions.LOAD_MANUFACTURE_SUCCESS:
             return {
                 ...state,
                 manufactures: action.payload,
-                loading: false,
                 pager: action.pager
             };
         case Actions.LOAD_MANUFACTURE_ERROR:
             return {
                 ...state,
-                errorData: action.error,
                 loading: false,
             };
         /**
          * delete manufacture
          */
+        case Actions.DELETE_MANUFACTURE:
+            return {
+                ...state,
+                deleteSuccess: false,
+                deleteError: null
+            };
         case Actions.DELETE_MANUFACTURE_SUCCESS:
             return {
                 ...state,
                 pager: state.manufactures.filter(item => item.ID !== action.payload),
-                //manufactures: state.manufactures.filter(item => item.ID !== action.payload),
-                successData: false
+                deleteSuccess: true,
+                deleteError: null
             }
         case Actions.DELETE_MANUFACTURE_ERROR:
             return {
                 ...state,
-                successData: false,
-                deleteErrorData: action.error,
-                errorData: '',
+                deleteSuccess: false,
+                deleteError: action.error
             }
         /**
          * update manufacture
@@ -78,7 +80,8 @@ export default function manufactureReducer(state = initialState, action) {
          case Actions.UPDATE_MANUFACTURE:
             return {
                 ...state,
-                loading: true,
+                updateSuccess: false,
+                updateError: null
             };
         case Actions.UPDATE_MANUFACTURE_SUCCESS:
             return {
@@ -89,13 +92,14 @@ export default function manufactureReducer(state = initialState, action) {
                             {...items, Name : action.payload[0].Name }    
                                 : items
                     ),
-                loading: false,
+                updateSuccess: true,
+                updateError: null
             };
         case Actions.UPDATE_MANUFACTURE_ERROR:
             return {
                 ...state,
-                errorData: action.error,
-                loading: false,
+            updateSuccess: false,
+            updateError: action.updateError
             };
         default: 
             return state;

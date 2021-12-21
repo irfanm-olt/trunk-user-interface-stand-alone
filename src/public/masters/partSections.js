@@ -95,6 +95,51 @@ class PartSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { 
+      createSuccess,
+      createError,
+      deleteSuccess,
+      deleteError,
+      updateSuccess,
+      updateError
+    } = this.props;
+    const { 
+      createSuccess: prevCreateSuccess, 
+      createError: prevcreateError,
+      deleteSuccess: prevdeleteSuccess ,
+      deleteError: prevdeleteError,
+      updateSuccess: prevupdateSuccess,
+      updateError: prevupdateError
+    } = prevProps;
+
+    // create success
+    if(createSuccess && createSuccess !== prevCreateSuccess) {
+        NotificationManager.success("Part section created successfully");
+    }
+
+    // create success
+    if(createError !== null && createError !== prevcreateError) {
+        NotificationManager.error(createError);
+    }
+
+    // delete success
+    if(deleteSuccess && deleteSuccess !== prevdeleteSuccess) {
+        NotificationManager.warning("Part section deleted successfully");
+    }
+
+    // delete error
+    if(deleteError && deleteError !== prevdeleteError) {
+        NotificationManager.error(deleteError);
+    }
+    // update success
+    if(updateSuccess && updateSuccess !== prevupdateSuccess) {
+      NotificationManager.success("Part section updated successfully");
+    }
+
+    // update error
+    if(updateError && updateError !== prevupdateError) {
+      NotificationManager.error(updateError);
+    }
     this.loadPartSection();
   }
 
@@ -159,7 +204,7 @@ class PartSection extends Component {
                       </CCol>
                   </CFormGroup>
                 </CForm>
-                <table className="table table-hover table-bordered table-striped text-center">
+                <table className="table table-striped">
                     <thead>
                       <tr>
                           <th>
@@ -175,7 +220,7 @@ class PartSection extends Component {
                     </thead>
                     <tbody>
                       {data ? data.map((item, index) => 
-                        <tr>
+                        <tr className='expandable-row'>
                             <td>{pager.pages && pager.pages.length ? pager.startIndex + index +1: index+1}</td>
                             <td>
                                 {item.Name}
@@ -237,7 +282,13 @@ PartSection.propTypes = {
 
 const mapStateToProps = state => ({
   data: state.partSection.partSections,
-  pager: state.partSection.pager
+  pager: state.partSection.pager,
+  createSuccess: state.partSection.createSuccess,
+  createError: state.partSection.createError,
+  deleteSuccess: state.partSection.deleteSuccess,
+  deleteError: state.partSection.deleteError,
+  updateSuccess: state.partSection.updateSuccess,
+  updateError: state.partSection.updateError
 });
 
 

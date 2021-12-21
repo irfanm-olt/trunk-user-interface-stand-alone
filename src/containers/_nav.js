@@ -2,7 +2,7 @@ import 'font-awesome/css/font-awesome.min.css';
 const _nav =  [
   {
     _tag: 'CSidebarNavDivider',
-    className: 'm-5'
+    className: 'm-3'
   },
   {
     _tag: 'CSidebarNavDropdown',
@@ -57,12 +57,6 @@ const _nav =  [
     route: '/masters',
     to: '/masters/cars',
     fontIcon: 'fa fa-car fa-lg',
-    attributes: {
-      onClick: (e, item)=>{
-         console.log(e, item);
-         alert("hi!");
-        }
-    }
   },
   {
     _tag: 'CSidebarNavItem',

@@ -10,6 +10,7 @@ const initState = {
   addEnquirySuccess: false,
   updateEnquirySuccess: false,
   addHeaderSuccess: false,
+  updateHeaderSuccess: false,
   addPartNumberSuccess: false,
   enquiryList: [],
   vehicleLoading: false,
@@ -123,7 +124,8 @@ export default function enquiryReducer(state = initState, action) {
             return {
                 ...state,
                 loading: false,
-                parts: action.payload
+                parts: action.payload,
+                partHeaders: action.partHeader
             }
         case Actions.LOAD_PARTS_ERROR:
             return {
@@ -153,6 +155,31 @@ export default function enquiryReducer(state = initState, action) {
                 error: action.error,
                 data: '',
                 addHeaderSuccess: false
+            }
+        /**
+         * update header
+         */
+         case Actions.UPDATE_ENQUIRY_PART_HEADER:
+            return {
+                ...state,
+                loading: true,
+                data: '',
+                updateHeaderSuccess: false
+            };
+        case Actions.UPDATE_ENQUIRY_PART_HEADER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                data: action.payload,
+                updateHeaderSuccess: true,
+            }
+        case Actions.UPDATE_ENQUIRY_PART_HEADER_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+                data: '',
+                updateHeaderSuccess: false
             }
         case Actions.LOAD_ENQUIRY_PART_HEADER:
             return {
@@ -215,6 +242,22 @@ export default function enquiryReducer(state = initState, action) {
                 error: action.error,
                 partPriceLoading: false,
                 partPriceSuccess: false,
+            }
+        /**
+         * add part price
+         */
+         case Actions.DELETE_PART_PRICE:
+            return {
+                ...state,
+            };
+        case Actions.DELETE_PART_PRICE_SUCCESS:
+            return {
+                ...state,
+                priceData: state.priceData.filter(item => item.ID !== action.payload),
+            }
+        case Actions.ADD_PART_PRICE_ERROR:
+            return {
+                ...state,
             }
         /**
          *  load part details

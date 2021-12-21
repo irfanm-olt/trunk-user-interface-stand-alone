@@ -1,10 +1,13 @@
 import * as Actions from './constants';
 const initialState = {
-    loading: false,
     partSections: [],
-    errorData:'',
-    successData: false,
-    pager: {}
+    pager: {},
+    createError: null,
+    createSuccess: false,
+    deleteError: null,
+    deleteSuccess: false,
+    updateError: null,
+    updateSuccess: false,
 }
 
 export default function partSectionReducer(state = initialState, action) {
@@ -15,20 +18,22 @@ export default function partSectionReducer(state = initialState, action) {
         case Actions.ADD_PART_SECTION:
             return {
                 ...state,
-                loading: true,
+                createSuccess: false,
+                createError: null
             };
         case Actions.ADD_PART_SECTION_SUCCESS:
             return {
                 ...state,
-                //partSections: state.partSections.concat(action.payload),
                 pager: state.partSections.concat(action.pager),
-                loading: false,
+                createSuccess: true,
+                createError: null
             };
         case Actions.ADD_PART_SECTION_ERROR:
             return {
                 ...state,
                 data: action.payload,
-                loading: false,
+                createSuccess: false,
+                createError: action.error
             };
         /**
          * load master
@@ -36,36 +41,39 @@ export default function partSectionReducer(state = initialState, action) {
         case Actions.LOAD_PART_SECTION:
             return {
                 ...state,
-                loading: true,
             };
         case Actions.LOAD_PART_SECTION_SUCCESS:
             return {
                 ...state,
                 partSections: action.payload,
-                loading: false,
                 pager: action.pager
             };
         case Actions.LOAD_PART_SECTION_ERROR:
             return {
                 ...state,
                 data: action.payload,
-                loading: false,
             };
         /**
          * delete part section
          */
+         case Actions.DELETE_PART_SECTION:
+            return {
+                ...state,
+                deleteSuccess: false,
+                deleteError: null
+            };
          case Actions.DELETE_PART_SECTION_SUCCESS:
             return {
                 ...state,
                 partSections: state.partSections.filter(item => item.ID !== action.payload),
-                successData: false
+                deleteSuccess: true,
+                deleteError: null
             }
         case Actions.DELETE_PART_SECTION_ERROR:
             return {
                 ...state,
-                successData: false,
-                deleteErrorData: action.error,
-                errorData: '',
+                deleteSuccess: false,
+                deleteError: action.error
             }
         /**
          * update part section
@@ -73,7 +81,8 @@ export default function partSectionReducer(state = initialState, action) {
          case Actions.UPDATE_PART_SECTION:
             return {
                 ...state,
-                loading: true,
+                updateSuccess: false,
+                updateError: null
             };
         case Actions.UPDATE_PART_SECTION_SUCCESS:
             return {
@@ -84,13 +93,14 @@ export default function partSectionReducer(state = initialState, action) {
                             {...items, Name : action.payload[0].Name }    
                                 : items
                     ),
-                loading: false,
+                updateSuccess: true,
+                updateError: null
             };
         case Actions.UPDATE_PART_SECTION_ERROR:
             return {
                 ...state,
-                errorData: action.error,
-                loading: false,
+                updateSuccess: false,
+                updateError: action.updateError
             };
         default: 
             return state;

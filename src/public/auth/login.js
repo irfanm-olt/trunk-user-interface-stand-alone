@@ -18,6 +18,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { SignInWithEmail } from "../../modules/auth/actions";
 import classnames from "classnames";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
+import validator from 'validator';
 
 class Login extends Component {
   constructor() {
@@ -36,15 +40,38 @@ class Login extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isLogin) {
-      this.props.history.push("./dashboard"); // push user to dashboard when they login
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.auth.isLogin) {
+  //     this.props.history.push("./dashboard"); // push user to dashboard when they login
+  //   }
+  //   if (nextProps.authErrors.errors) {
+  //     this.setState({
+  //       errors: nextProps.authErrors.errors
+  //     });
+  //   }
+  // }
+
+  componentDidUpdate( prevProps ) {
+    const { isLogin } = this.props.auth;
+    const { isLogin: previsLogin } = prevProps.auth;
+    // errors
+    const { errors } = this.props.authErrors;
+    const { errors: preverrors } = prevProps.authErrors;
+
+    if(errors !== preverrors && errors.emailnotfound) {
+      NotificationManager.warning(errors.emailnotfound);
+      return false;
     }
-    if (nextProps.authErrors.errors) {
-      this.setState({
-        errors: nextProps.authErrors.errors
-      });
+
+    if(errors !== preverrors && errors.passwordincorrect) {
+      NotificationManager.warning(errors.passwordincorrect);
+      return false;
     }
+
+    if(isLogin && isLogin !== previsLogin) {
+      this.props.history.push("./dashboard");
+    }
+
   }
 
   onChange = e => {
@@ -54,12 +81,29 @@ class Login extends Component {
   handleLogin = e => {
     e.preventDefault();
     const {email, password} = this.state;
+
+    // email validation
+    if(!validator.isEmail(email)) {
+      NotificationManager.warning("Enter valid email");
+      return false;
+    }
+
+    // password validation
+    if(password === "" || password === undefined) {
+      NotificationManager.warning("Password is required");
+      return false;
+    }
+
     this.props.SignInWithEmail({email, password});
   };
 
   render() {
     const { errors } = this.state;
     return (
+      <>
+      <CRow>
+        <NotificationContainer/>
+      </CRow>
       <div className="c-app c-default-layout flex-row align-items-center login-container">
         <CContainer>
           <CRow className="justify-content-center">
@@ -137,6 +181,7 @@ class Login extends Component {
           </CRow>
         </CContainer>
       </div>
+      </>
     )
 
   }

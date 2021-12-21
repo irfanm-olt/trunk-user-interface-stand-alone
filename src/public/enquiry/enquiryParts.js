@@ -28,13 +28,6 @@ constructor(props) {
   }
 }
 
-// componentWillReceiveProps(nextProps) {
-//   if(nextProps.partNumberSuccess && this.props != nextProps)
-//   {
-//     NotificationManager.success("Part number updated");
-//   }
-// }
-
 componentDidMount() {
   EnquiryID = localStorage.getItem('ENQUIRY-ID');
   const enquiry = {};

@@ -1,11 +1,15 @@
 import * as Actions from './constants';
 const isEmpty = require("is-empty");
 const initialState = {
-    loading: false,
-    success: {},
-    response: {},
     customers: [],
-    pager: {}
+    pager: {},
+    editCustomer: '',
+    createError: null,
+    createSuccess: false,
+    deleteError: null,
+    deleteSuccess: false,
+    updateError: null,
+    updateSuccess: false,
 }
 
 export default function customerReducer(state = initialState, action) {
@@ -13,49 +17,93 @@ export default function customerReducer(state = initialState, action) {
         case Actions.CREATE_CUSTOMER:
             return {
                 ...state,
-                loading: true,
-                response: !isEmpty(action.payload)
+                createSuccess: false,
+                createError: null
             };
         case Actions.CREATE_CUSTOMER_SUCCESS:
             return {
                 ...state,
-                response: !isEmpty(action.payload),
-                loading: false
+                createSuccess: true,
+                createError: null
+            };
+        case Actions.CREATE_CUSTOMER_ERROR:
+            return {
+                ...state,
+                createSuccess: false,
+                createError: action.error
+            };
+        /**
+         * update customer
+         */
+        case Actions.UPDATE_CUSTOMER:
+            return {
+                ...state,
+                updateSuccess: false,
+                updateError: null
+            };
+        case Actions.UPDATE_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                updateSuccess: true,
+                updateError: null
+            };
+        case Actions.UPDATE_CUSTOMER_ERROR:
+            return {
+                ...state,
+            updateSuccess: false,
+            updateError: action.updateError
             };
         case Actions.LOAD_CUSTOMER:
             return {
                 ...state,
-                loading: true,
             };
         case Actions.LOAD_CUSTOMER_SUCCESS:
             return {
                 ...state,
-                loading: false,
                 customers: action.payload,
-                error: '',
                 pager: action.pager
             }
         case Actions.LOAD_CUSTOMER_ERROR:
             return {
                 ...state,
-                loading: false,
-                error: action.error
+            }
+        /**
+         * LOAD CUSTOMER BY ID
+         */
+         case Actions.LOAD_CUSTOMER_BY_ID:
+            return {
+                ...state,
+            };
+        case Actions.LOAD_CUSTOMER_BY_ID_SUCCESS:
+            return {
+                ...state,
+                editCustomer: action.payload,
+            }
+        case Actions.LOAD_CUSTOMER_BY_ID_ERROR:
+            return {
+                ...state,
             }
         /**
          * delete customer
          */
+         case Actions.DELETE_CUSTOMER:
+            return {
+                ...state,
+                deleteSuccess: false,
+                deleteError: null
+            };
         case Actions.DELETE_CUSTOMER_SUCCESS:
             return {
                 ...state,
                 pager: state.customers.filter(item => item.ID !== action.payload),
-                successData: false
+                deleteSuccess: true,
+                deleteError: null
             }
         case Actions.DELETE_CUSTOMER_ERROR:
             return {
                 ...state,
-                successData: false,
-                deleteErrorData: action.error,
-                errorData: '',
+                deleteSuccess: false,
+                deleteError: action.error
             }
         default: 
             return state;

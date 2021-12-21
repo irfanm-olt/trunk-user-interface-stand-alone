@@ -40,7 +40,8 @@ componentDidUpdate(prevProps) {
 componentDidMount() {
   EnquiryID = localStorage.getItem('ENQUIRY-ID');
   Manufacture = localStorage.getItem('MANUFACTURE');
-  this.props.loadParts();
+  const enquiryID = 0;
+  this.props.loadParts({ enquiryID });
 }
 
 handleChange = (e) => {

@@ -14,9 +14,10 @@ export function loadMasters({ enquiryID  }) {
     }
 }
 
-export function loadParts() {
+export function loadParts({ enquiryID }) {
     return {
-        type: Actions.LOAD_PARTS
+        type: Actions.LOAD_PARTS,
+        enquiryID
     }
 }
 
@@ -46,12 +47,20 @@ export function addEnquiryPartHeader({ datas }) {
     }
 }
 
+export function updateEnquiryPartHeader({ datas }) {
+    return {
+        type: Actions.UPDATE_ENQUIRY_PART_HEADER,
+        datas
+    }
+}
+
 export function addPartNumber({ datas }) {
     return {
         type: Actions.ADD_PART_NUMBER,
         datas
     }
 }
+
 
 export function loadEnquiryPartHeader({ enquiryID }) {
     return {
@@ -65,6 +74,14 @@ export function addPartPrice({ datas }) {
     return {
         type: Actions.ADD_PART_PRICE,
         datas
+    }
+}
+
+// DELETE PART PRICE
+export function deletePartPrice({ id }) {
+    return {
+        type: Actions.DELETE_PART_PRICE,
+        id
     }
 }
 

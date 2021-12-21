@@ -25,7 +25,7 @@ function* addCarSaga({ manufacture, carName }) {
     } catch (error) {
         yield put({
             type: Actions.ADD_CAR_ERROR,
-            error: error,
+            error: error.error,
         });
     }
 }
@@ -87,7 +87,7 @@ function* updateCarSaga({datas}) {
     } catch (error) {
         yield put({
             type: Actions.UPDATE_CAR_ERROR,
-            updateError: "can't update record!"
+            updateError: "Same record exist in list!"
         })
     }
 }

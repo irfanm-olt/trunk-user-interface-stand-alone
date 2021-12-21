@@ -12,30 +12,44 @@ import CIcon from '@coreui/icons-react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loadParts, addEnquiryPartHeader } from 'src/modules/enquiry/actions';
+import { loadParts, updateEnquiryPartHeader} from 'src/modules/enquiry/actions';
 import 'react-notifications/lib/notifications.css';
-import EnquiryPartHeaders from './container/enquiryPartHeaders';
+import EnquiryPartHeaders from './container/editenquiryPartHeaders';
 let EnquiryID = '';
 let Manufacture = '';
 
-class EnquiryPartHeader extends Component {
+class EditenquiryPartHeader extends Component {
 constructor(props) {
   super(props);
   this.state = {
     collapsed: true,
     showElements: true,
-    enquiryPartHeaders: [{ index: Math.random(), partName: '', quantity: '' }]
+    enquiryPartHeaders: [],
+    deletedRecord: [],
+    changeKey: '',
   }
 }
 
 componentDidUpdate(prevProps) {
-    
+    const { partHeaders, updateHeaderSuccess } = this.props.data;
+    const { partHeaders: prevpartHeaders, updateHeaderSuccess: prevupdateHeaderSuccess } = prevProps.data;
+    if(partHeaders && partHeaders !== prevpartHeaders) {
+      partHeaders.map((item, index) => {
+        this.setState((prevState) => ({
+            enquiryPartHeaders: [...prevState.enquiryPartHeaders, { index: Math.random(), partName: `${item.PartID}`, quantity: `${item.Quantity}`, headerID: `${item.ID}` }],
+        }));
+      })
+    }
+
+    if (updateHeaderSuccess && updateHeaderSuccess !== prevupdateHeaderSuccess) {
+      const id = this.props.match.params.id;
+      this.props.history.push(`../edit-enquiry-parts/${id}`);
+    }
 }
 
 componentDidMount() {
-  EnquiryID = localStorage.getItem('ENQUIRY-ID');
-  Manufacture = localStorage.getItem('MANUFACTURE');
-  this.props.loadParts();
+  const enquiryID = this.props.match.params.id;
+  this.props.loadParts({ enquiryID });
 }
 
 handleChange = (e) => {
@@ -45,6 +59,7 @@ handleChange = (e) => {
   } else {
       this.setState({ [e.target.name]: e.target.value })
   }
+  this.setState({ changeKey: e.target.id })
 }
 
 handleSubmit = (e) => {
@@ -68,10 +83,10 @@ handleSubmit = (e) => {
       return false;
   }
   
-  const datas = { formData: this.state, enquiryID: EnquiryID }
+  const datas = { formData: this.state, enquiryID: this.props.match.params.id }
   const parts = {};
   parts.datas = datas;
-  this.props.addEnquiryPartHeader(parts);
+  this.props.updateEnquiryPartHeader(parts);
 }
 
 hasDuplicates(array) {
@@ -87,14 +102,15 @@ addNewRow = () => {
 
 clickOnDelete(record) {
   this.setState({
-      enquiryPartHeaders: this.state.enquiryPartHeaders.filter(r => r !== record)
+      enquiryPartHeaders: this.state.enquiryPartHeaders.filter(r => r !== record),
+      deletedRecord: this.state.deletedRecord.concat(record)
   });
 }
 
 
 render() {
   const { parts } = this.props.data;
-  let { enquiryPartHeaders } = this.state;
+  let { enquiryPartHeaders, changeKey } = this.state;
   return (
       <CRow className="text-center justify-content-center">
         <NotificationContainer/>
@@ -106,18 +122,30 @@ render() {
                     <h4>Add Parts &#38; Quantity</h4>
                     <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                       <table className="table">
-                        <tr>
-                          <th>Add/Select part name <br /> <CButton onClick={() => this.addMore()}>Add new parts</CButton></th>
-                          <th>Quantity</th>
-                          <th>Action</th>
-                        </tr>
-                        <EnquiryPartHeaders add={this.addNewRow} delete={this.clickOnDelete.bind(this)} enquiryPartHeaders={enquiryPartHeaders} part={parts} />
-                        <tr>
-                          <td colSpan="3">
-                            <CButton onClick={() => this.props.history.goBack()} color="secondary" className="mfe-3" to="/enquiry"><CIcon name="cil-x" /> Cancel</CButton>
-                            <CButton type="submit" color="secondary" ><CIcon name="cil-save" /> Save</CButton>
-                          </td>
-                        </tr>
+                        <thead>
+                          <tr>
+                            <th>Add/Select part name</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <EnquiryPartHeaders 
+                            add={this.addNewRow} 
+                            delete={this.clickOnDelete.bind(this)} 
+                            enquiryPartHeaders={enquiryPartHeaders} 
+                            part={parts} 
+                            changeKey={changeKey}
+                          />
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colSpan="3">
+                              <CButton onClick={() => this.props.history.goBack()} color="secondary" className="mfe-3" to="/enquiry"><CIcon name="cil-x" /> Cancel</CButton>
+                              <CButton type="submit" color="primary" ><CIcon name="cil-save" /> Update</CButton>
+                            </td>
+                          </tr>
+                        </tfoot>
                       </table>
                     </form>
                 </CCardBody>
@@ -130,7 +158,7 @@ render() {
   }
 }
 
-EnquiryPartHeader.propTypes = {
+EditenquiryPartHeader.propTypes = {
   enquiry: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
@@ -138,5 +166,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
 mapStateToProps,
-{ loadParts, addEnquiryPartHeader }
-)(EnquiryPartHeader);
+{ loadParts, updateEnquiryPartHeader }
+)(EditenquiryPartHeader);

@@ -29,9 +29,9 @@ class EnquiryList extends Component {
     this.loadEnquiryCarDetails();
   }
 
-  // componentDidUpdate(prevProps) {
-  //   this.loadEnquiryCarDetails();
-  // }
+  componentDidUpdate() {
+    this.loadEnquiryCarDetails();
+  }
 
   loadEnquiryCarDetails = () => {
     const params = new URLSearchParams(this.props.location.search);
@@ -71,18 +71,12 @@ delete = (id) => {
 
 edit = (id) => {
   if (window.confirm("Are you sure?")) {
-    // this.props.history.push({
-    //   pathname: './enquiry-vehicle',
-    //   state: {
-    //     enquiryID: id,
-    //   },
-    // })
     this.props.history.push(`./edit-enquiry-vehicle/${id}`);
   } 
 }
 
 render() {
-  const { data, partDetails, pager } = this.props;
+  const { data, partDetails, pager, enquiryList} = this.props;
   return (
       <CRow className="text-center justify-content-center list-table">
           <CCol xs="12" sm="12" lg="12">

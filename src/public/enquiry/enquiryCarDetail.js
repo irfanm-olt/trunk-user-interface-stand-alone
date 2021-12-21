@@ -23,10 +23,8 @@ import { Link } from 'react-router-dom';
 import { loadVehicle, loadMasters, addEnquiryCar } from 'src/modules/enquiry/actions';
 import CreatableSelect from 'react-select/creatable';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import 'react-notifications/lib/notifications.css'; 
-import { enquiry } from 'src/assets/icons/enquiry';
+import 'react-notifications/lib/notifications.css';
 let errors = {};
-
 class EnquiryCarDetail extends Component {
 constructor(props) {
   super(props);
@@ -83,7 +81,6 @@ onChange = e => {
 handleEnquiry = e => {
     e.preventDefault();
     const formData = this.state;
-    
 
     if(formData.customer === "")
     {
@@ -161,7 +158,7 @@ render() {
         </CRow>
         <CForm className="form-horizontal" onSubmit={this.handleEnquiry}>
           <CRow>
-            <CCol xs="12" sm="6" lg="4" className="pfs-md-5 offset-2">
+            <CCol xs="12" sm="6" lg="5" className="pfs-md-5 col-md-offset-1 col-lg-offset-1">
               <CFade timeout={300} in={this.state.showElements} unmountOnExit={true}>
                 <CCard>
                   <CCollapse show={this.state.collapsed} timeout={1000}>
@@ -186,7 +183,7 @@ render() {
                             </CSelect>
                             { errors.customer ? <div className="warning-text">{ errors.customer }</div> : null}
                           </div>
-                          <div className="hintText float-right">
+                          <div className="hintText float-right link-to-customer">
                             <span>Can't find customer? </span><Link href="#" to="/customer/add-customer">Add new</Link>
                           </div>
                         </CFormGroup>
@@ -226,7 +223,7 @@ render() {
                 </CCard>
               </CFade>
             </CCol>
-            <CCol xs="12" sm="6" lg="4" className="pr-md-5">
+            <CCol xs="12" sm="6" lg="5" className="pr-md-5">
               <CFade timeout={300} in={this.state.showElements} unmountOnExit={true}>
                 <CCard>
                   <CCollapse show={this.state.collapsed} timeout={1000}>
@@ -246,9 +243,17 @@ render() {
                               <CInputGroupAppend>
                                 {
                                   vehicleLoading ?
-                                  <CButton type="button" color="primary"> Searching...</CButton>
+                                  // <CButton type="button" color="primary"> Searching...</CButton>
+                                  <button type="button" className="btn btn-primary" >Searching...</button>
                                   :
-                                  <CButton onClick={() => { this.getVehicleInfo(this.state.chassisNumber) }} type="button" color="primary"><CIcon name="cil-magnifying-glass" /> Search</CButton>
+                                  <button 
+                                    className="btn btn-primary"
+                                    type="button"
+                                    onClick={() => { this.getVehicleInfo(this.state.chassisNumber) }}
+                                  >
+                                      <i class="fa fa-search" aria-hidden="true"></i> Search
+                                  </button>
+                                  // <CButton onClick={() => { this.getVehicleInfo(this.state.chassisNumber) }} type="button" color="primary"><CIcon name="cil-magnifying-glass" /> Search</CButton>
                                 }
                               </CInputGroupAppend>
                             </CInputGroup>
@@ -296,8 +301,9 @@ render() {
             <CContainer>
               <CRow className="justify-content-center">
                 <CCol className="text-center" lg="12" sm="12">
-                  <CButton color="secondary" className="mfe-3" to="/enquiry"><CIcon name="cil-x" /> Cancel</CButton>
-                  <CButton type="submit" color="primary" ><CIcon name="cil-save" /> Save</CButton>
+                  <button type="button" className="btn btn-secondary custom-button"><i class="fa fa-times"></i> Cancel</button>
+                  <button type="submit" className="btn btn-primary custom-button"><i class="fa fa-save"></i> Save</button>
+                  <button type="submit" className="btn btn-primary custom-button"><i class="fa fa-arrow-right"></i> Save &#38; Continue</button>
                 </CCol>
               </CRow>
             </CContainer>

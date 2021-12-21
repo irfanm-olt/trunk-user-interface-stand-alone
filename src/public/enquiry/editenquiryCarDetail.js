@@ -64,11 +64,8 @@ componentDidUpdate( prevProps ) {
     }
     // update
     if(updateEnquirySuccess && updateEnquirySuccess !== prevUpdateEnquirySuccess) {
-      
-      localStorage.setItem('ENQUIRY-ID', data.ID);
-      localStorage.setItem('MANUFACTURE', this.state.manufacture.label);
-
-      this.props.history.push('../edit-enquiry-parts-header');
+      const id = this.props.match.params.id;
+      this.props.history.push(`../edit-enquiry-parts-header/${id}`);
     }
 
 }
@@ -174,7 +171,7 @@ render() {
         </CRow>
         <CForm className="form-horizontal" onSubmit={this.handleEnquiry}>
           <CRow>
-            <CCol xs="12" sm="6" lg="4" className="pfs-md-5 offset-2">
+          <CCol xs="12" sm="6" lg="5" className="offset-1">
               <CFade timeout={300} in={this.state.showElements} unmountOnExit={true}>
                 <CCard>
                   <CCollapse show={this.state.collapsed} timeout={1000}>
@@ -236,7 +233,7 @@ render() {
                 </CCard>
               </CFade>
             </CCol>
-            <CCol xs="12" sm="6" lg="4" className="pr-md-5">
+            <CCol xs="12" sm="6" lg="5" className="pr-md-5">
               <CFade timeout={300} in={this.state.showElements} unmountOnExit={true}>
                 <CCard>
                   <CCollapse show={this.state.collapsed} timeout={1000}>

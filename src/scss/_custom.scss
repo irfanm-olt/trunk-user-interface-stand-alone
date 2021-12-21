@@ -1,4 +1,7 @@
 // Here you can add other styles
+body{
+  font-size: 0.8rem;
+}
 .hintText {
   color: #000;
 }
@@ -206,4 +209,37 @@ button {
 
 .page-not-found-error {
   font-size: 2rem;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.link-to-customer {
+  font-size: 0.8rem;
+  a {
+    color: #00b78b;
+  }
+}
+
+.btn-primary {
+  background-color: #00B78B;
+  color: #fff;
+}
+
+.custom-button {
+  margin-left: 1rem;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  box-shadow: unset;
+}
+
+.btn:focus, .btn.focus {
+  box-shadow: unset;
+}
+
+.btn-primary:hover {
+  background-color: rgb(102, 102, 102);
+  border-color: rgb(102, 102, 102);
 }

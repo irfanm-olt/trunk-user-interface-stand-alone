@@ -4,6 +4,10 @@
  export const CREATE_CUSTOMER = "customer/CREATE_CUSTOMER";
  export const CREATE_CUSTOMER_SUCCESS = "customer/CREATE_CUSTOMER_SUCCESS";
  export const CREATE_CUSTOMER_ERROR = "customer/CREATE_CUSTOMER_ERROR";
+
+ /**
+  * LOAD CUSTOMER
+  */
  export const LOAD_CUSTOMER = "customer/LOAD_CUSTOMER";
  export const LOAD_CUSTOMER_SUCCESS = "customer/LOAD_CUSTOMER_SUCCESS";
  export const LOAD_CUSTOMER_ERROR = "customer/LOAD_CUSTOMER_ERROR";
@@ -14,3 +18,17 @@
  export const DELETE_CUSTOMER = "customer/DELETE_CUSTOMER";
  export const DELETE_CUSTOMER_SUCCESS = "customer/DELETE_CUSTOMER_SUCCESS";
  export const DELETE_CUSTOMER_ERROR = "customer/DELETE_CUSTOMER_ERROR";
+
+/**
+*  LOAD CUSTOMER BY ID
+*/
+export const LOAD_CUSTOMER_BY_ID = "enquiry/LOAD_CUSTOMER_BY_ID";
+export const LOAD_CUSTOMER_BY_ID_SUCCESS = "enquiry/LOAD_CUSTOMER_BY_ID_SUCCESS";
+export const LOAD_CUSTOMER_BY_ID_ERROR = "enquiry/LOAD_CUSTOMER_BY_ID_ERROR";
+
+/**
+ *  UPDATE CUSTOMER
+ */
+export const UPDATE_CUSTOMER = "enquiry/UPDATE_CUSTOMER";
+export const UPDATE_CUSTOMER_SUCCESS = "enquiry/UPDATE_CUSTOMER_SUCCESS";
+export const UPDATE_CUSTOMER_ERROR = "enquiry/UPDATE_CUSTOMER_ERROR";

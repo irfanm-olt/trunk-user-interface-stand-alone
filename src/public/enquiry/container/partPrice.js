@@ -8,7 +8,7 @@ import {
 import CIcon from '@coreui/icons-react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addPartPrice, loadPartDetails } from "src/modules/enquiry/actions";
+import { addPartPrice, loadPartDetails, deletePartPrice } from "src/modules/enquiry/actions";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 const PartPrice = (props) => {
@@ -30,6 +30,13 @@ const PartPrice = (props) => {
         props.loadPartDetails(datas);
     }
 
+
+    function deletePrice(ids) {
+        //console.log(id);
+        const id  = {}
+        id.ID = ids
+        props.deletePartPrice({ id })
+    }
 
     function handleSubmit() {
         if(brand === "")
@@ -73,6 +80,7 @@ const PartPrice = (props) => {
     }
 
     const { priceData } = props;
+    
 
     return(
         <>
@@ -171,7 +179,7 @@ const PartPrice = (props) => {
                             <th>Cost Price</th>
                             <th>Sale Price</th>
                             <th>Remark</th>
-                            <th>Edit/delete Price</th>
+                            <th>Delete</th>
                         </tr>
                         {
                             priceData ? priceData.map((item, index) => {
@@ -187,7 +195,7 @@ const PartPrice = (props) => {
                                                 <td>{ item.SellingPrice }</td>
                                                 <td>{ item.Remark }</td>
                                                 <button className="action-button">
-                                                    <CIcon onClick={() => this.deleteEnquiry} name="cil-trash" height="18" alt="Delete"/>
+                                                    <CIcon onClick={() => deletePrice(item.ID)} name="cil-trash" height="18" alt="Delete"/>
                                                 </button>
                                             </tr>
                                         </>
@@ -215,5 +223,5 @@ PartPrice.propTypes = {
   });
   export default connect(
   mapStateToProps,
-  { addPartPrice, loadPartDetails }
+  { addPartPrice, loadPartDetails, deletePartPrice }
   )(PartPrice);

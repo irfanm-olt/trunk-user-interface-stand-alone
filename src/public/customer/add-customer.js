@@ -40,10 +40,38 @@ class AddCustomer extends Component {
       buildingNumber: '',
       street: '',
       address: '',
-      profileImagefile: null,
-      tradeLicenseFile: [],
+      profileImagefile: '',
+      tradeLicenseFile: '',
     }
     this.onSubmit = this.onSubmit.bind(this);
+    this.removeTradeLicense = this.removeTradeLicense.bind(this);
+    this.saveTradeLicenseFiles = this.saveTradeLicenseFiles.bind(this);
+    this.saveProfileImageFile = this.saveProfileImageFile.bind(this);
+  }
+
+  componentDidUpdate( prevProps ) {
+    const { 
+      createSuccess,
+      createError,
+    } = this.props;
+    const { 
+      createSuccess: prevCreateSuccess, 
+      createError: prevcreateError,
+    } = prevProps;
+
+    // create success
+    if(createSuccess && createSuccess !== prevCreateSuccess) {
+        Object.keys(this.state).map((key, index) => {
+            this.setState({[key] : ""});
+        });
+        NotificationManager.success("Customer created successfully");
+    }
+
+    // create success
+    if(createError !== null && createError !== prevcreateError) {
+        NotificationManager.error(createError);
+    }
+
   }
 
   componentDidMount() {
@@ -60,24 +88,7 @@ class AddCustomer extends Component {
 
   }
 
-  componentWillReceiveProps(nextProps) {
-    
-    if(nextProps.customer.response) {
-      this.props.history.push({
-        pathname: '../customer/list-customer',
-        appState: {
-          customer_create_status : true,
-        }
-      });
-    }
-
-    if(nextProps.customerErrors.errors) {
-      this.setState({
-        error: nextProps.customerErrors.errors
-      });
-    }
-  }
-
+  
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
@@ -94,7 +105,7 @@ class AddCustomer extends Component {
     const customerData = this.state;
     var pattern = new RegExp(/^[0-9\b]+$/);
 
-    // Company Name
+    //Company Name
     if(customerData.companyName === "") {
       NotificationManager.warning("Company name is required");
       return false;
@@ -129,9 +140,9 @@ class AddCustomer extends Component {
     formData.append("buildingNumber", customerData.buildingNumber);
     formData.append("street", customerData.street);
     formData.append("address", customerData.address);
-    formData.append("profileImage", customerData.profileImagefile);
-    for (const key of Object.keys(customerData.tradeLicenseFile)) {
-        formData.append('tradeLicenseFiles', customerData.tradeLicenseFile[key])
+    formData.append("profileImagefile", customerData.profileImagefile);
+    for (const key of Object.keys(this.state.tradeLicenseFile)) {
+      formData.append('tradeLicenseFile', this.state.tradeLicenseFile[key])
     }
     this.props.createCustomer( formData );
   }
@@ -139,46 +150,36 @@ class AddCustomer extends Component {
   // Save Profile Images
   saveProfileImageFile = (e) => {
     this.setState({
-      profileImagefile: e.target.files[0],
-      profileImagefileName: e.target.files[0].name,
+      profileImagefile: e.target.files[0]
     });
   }
 
   // Save Trade License
   saveTradeLicenseFiles = (e) => {
-    this.setState({ 
-      tradeLicenseFile: e.target.files,
-    })
+    this.setState({ tradeLicenseFile: e.target.files })
   }
 
   closeProfilePreviewContainer = () => {
     this.setState({
-      profileImagefile: null
+      profileImagefile: ''
     })
   }
 
-  // tradeLicenseFilePreview = () => {
-  //   Object.keys(this.state.tradeLicenseFile).map((item, index) => {
-  //       <div key={item}>this is a test</div>
-  //       return(
-  //         <div key={item} className='profile-image-preview-container'>
-  //           <img
-  //             src={this.state.tradeLicenseFile[index]? URL.createObjectURL(this.state.tradeLicenseFile[index]) : null} 
-  //             alt={this.state.tradeLicenseFile[index]? this.state.tradeLicenseFile[index].name : null}/>
-  //           <div onClick={this.closeProfilePreviewContainer} className="profile-close-container">
-  //             <i class="fa fa-trash fa-lg"></i>
-  //           </div>
-  //         </div>
-  //       )
-  //   });
-  // }
+  removeTradeLicense = (key) => {
+    const { tradeLicenseFile } = this.state;
+    const fileListArr = Array.from(tradeLicenseFile);
+    fileListArr.splice(key, 1);
+    this.setState({
+      tradeLicenseFile: fileListArr
+    })
+  }
 
   render() {
     const { profileImagefile, tradeLicenseFile } = this.state;
     return (
       <CRow>
         <NotificationContainer/>
-        <CCol xs="12" md="6" className="pfs-md-5 offset-3">
+        <CCol xs="12" md="8" className="offset-2">
           <CCard>
             <CCardBody>
               <CForm className="form-horizontal" onSubmit={this.onSubmit}>
@@ -236,7 +237,7 @@ class AddCustomer extends Component {
                         type="tel" 
                         id="contactPersonMobilePrefix" 
                         name="contactPersonMobilePrefix"
-                        value={this.state.contactPersonMobilePrefix}
+                        value="+971"
                         readOnly="readOnly"
                       />
                   </CCol>
@@ -275,7 +276,7 @@ class AddCustomer extends Component {
                         type="tel" 
                         id="companyPhonePrefix" 
                         name="companyPhonePrefix"
-                        value={this.state.companyPhonePrefix}
+                        value="+971"
                         readOnly="readOnly"
                       />
                   </CCol>
@@ -357,17 +358,19 @@ class AddCustomer extends Component {
                   </CCol>
                   <CCol xs="12" md="8">
                     <div className='profile-container'>
-                      <CInputFile id="trade-license-files" name="trade-license-files" onChange={this.saveTradeLicenseFiles} multiple/>
-                      {Object.keys(tradeLicenseFile).map(key => 
-                        <div key={key} className='profile-image-preview-container'>
-                          <img
-                            src={tradeLicenseFile[key]? URL.createObjectURL(tradeLicenseFile[key]) : null} 
-                            alt={tradeLicenseFile[key]? tradeLicenseFile[key].name : null}/>
-                          <div onClick={this.closeProfilePreviewContainer} className="profile-close-container">
-                            <i class="fa fa-trash fa-lg"></i>
+                      <CInputFile id="trade-license-files" name="tradeLicenseFile" onChange={this.saveTradeLicenseFiles} multiple/>
+                      {
+                        Object.keys(tradeLicenseFile).map((key, index) => 
+                          <div className='profile-image-preview-container trade-link'>
+                            <img
+                              src={tradeLicenseFile[key]? URL.createObjectURL(tradeLicenseFile[key]) : null} 
+                              alt={tradeLicenseFile[key]? tradeLicenseFile[key].name : null}/>
+                            <div onClick={() => this.removeTradeLicense(key)} className="profile-close-container">
+                              <i class="fa fa-trash fa-lg"></i>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )
+                      }
                       <div className='tradeLicenseUploader'>
                         <div className='icon-container'>
                           <i class="fa fa-image fa-2x"></i>
@@ -383,12 +386,12 @@ class AddCustomer extends Component {
                   </CCol>
                   <CCol xs="12" md="8">
                       <div className='profile-container'>
-                        <CInputFile className="profile-upload-button" id="file-input" name="file-input" onChange={this.saveProfileImageFile}/>
+                        <CInputFile className="profile-upload-button" id="file-input" name="profileImagefile" onChange={this.saveProfileImageFile}/>
                         {
-                          profileImagefile !== null ?
+                          profileImagefile !== '' ?
                           <div className='profile-image-preview-container'> 
                             <img
-                              src={profileImagefile? URL.createObjectURL(profileImagefile) : null} 
+                              src={profileImagefile? URL.createObjectURL(profileImagefile) : ''} 
                               alt={profileImagefile? profileImagefile.name : null}/>
                             <div onClick={this.closeProfilePreviewContainer} className="profile-close-container">
                               <i class="fa fa-trash fa-lg"></i>
@@ -426,7 +429,9 @@ AddCustomer.propTypes = {
 };
 const mapStateToProps = state => ({
   customerErrors: state.customerErrors,
-  customer: state.customer
+  customer: state.customer,
+  createSuccess: state.customer.createSuccess,
+  createError: state.customer.createError,
 });
 export default connect(
   mapStateToProps,

@@ -25,7 +25,7 @@ function* addPartSaga({ partSection, partName }) {
     } catch (error) {
         yield put({
             type: Actions.ADD_PART_ERROR,
-            error: error,
+            error: error.error,
         });
     }
 }

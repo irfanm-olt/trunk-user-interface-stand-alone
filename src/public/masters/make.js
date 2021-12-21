@@ -43,7 +43,53 @@ class Make extends Component {
     this.loadManufacture();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate( prevProps ) {
+    const { 
+      createSuccess,
+      createError,
+      deleteSuccess,
+      deleteError,
+      updateSuccess,
+      updateError
+    } = this.props;
+    const { 
+      createSuccess: prevCreateSuccess, 
+      createError: prevcreateError,
+      deleteSuccess: prevdeleteSuccess ,
+      deleteError: prevdeleteError,
+      updateSuccess: prevupdateSuccess,
+      updateError: prevupdateError
+    } = prevProps;
+
+    // create success
+    if(createSuccess && createSuccess !== prevCreateSuccess) {
+        NotificationManager.success("Manufacture created successfully");
+    }
+
+    // create success
+    if(createError !== null && createError !== prevcreateError) {
+        NotificationManager.error(createError);
+    }
+
+    // delete success
+    if(deleteSuccess && deleteSuccess !== prevdeleteSuccess) {
+        NotificationManager.warning("Manufacture deleted successfully");
+    }
+
+    // delete error
+    if(deleteError && deleteError !== prevdeleteError) {
+        NotificationManager.error(deleteError);
+    }
+    // update success
+    if(updateSuccess && updateSuccess !== prevupdateSuccess) {
+      NotificationManager.success("Manufacture updated successfully");
+    }
+
+    // update error
+    if(updateError && updateError !== prevupdateError) {
+      NotificationManager.error(updateError);
+    }
+
     this.loadManufacture();
   }
 
@@ -111,8 +157,7 @@ class Make extends Component {
   }
 
   render() {
-    const { data, error, success, deleteError, pager } = this.props;
-    console.log("Pager", pager);
+    const { data, pager } = this.props;
     return (
       <>
         <CRow>
@@ -122,27 +167,6 @@ class Make extends Component {
           <CCol xs="12" lg="12">
             <CCard>
               <CCardBody>
-                {
-                  deleteError ?
-                    <CAlert color="danger">
-                      {deleteError}!
-                    </CAlert>
-                  : null
-                }
-                {
-                  error ?
-                    <CAlert color="danger">
-                      {error}!
-                    </CAlert>
-                  : null
-                }
-                {
-                  success ?
-                    <CAlert color="success">
-                      Data saved!
-                    </CAlert>
-                  : null
-                }
                 <CForm className="form-horizontal" noValidate onSubmit={this.state.button === 'ADD' ? this.add: this.update}>
                   <CFormGroup row>
                       <CCol xs="4" md="8">
@@ -167,7 +191,7 @@ class Make extends Component {
                       </CCol>
                   </CFormGroup>
                 </CForm>
-                <table className="table table-hover table-bordered table-striped text-center">
+                <table className="table table-striped">
                     <thead>
                       <tr>
                           <th>
@@ -183,7 +207,7 @@ class Make extends Component {
                     </thead>
                     <tbody>
                       {data ? data.map((item, index) => 
-                        <tr>
+                        <tr className='expandable-row'>
                             <td>{pager.pages && pager.pages.length ? pager.startIndex + index +1: index+1}</td>
                             <td>
                                 {item.Name}
@@ -245,10 +269,13 @@ Make.propTypes = {
 
 const mapStateToProps = state => ({
   data: state.manufacture.manufactures,
-  error: state.manufacture.errorData,
-  success: state.manufacture.successData,
-  deleteError: state.manufacture.deleteErrorData,
-  pager: state.manufacture.pager
+  pager: state.manufacture.pager,
+  createSuccess: state.manufacture.createSuccess,
+  createError: state.manufacture.createError,
+  deleteSuccess: state.manufacture.deleteSuccess,
+  deleteError: state.manufacture.deleteError,
+  updateSuccess: state.manufacture.updateSuccess,
+  updateError: state.manufacture.updateError
 });
 
 

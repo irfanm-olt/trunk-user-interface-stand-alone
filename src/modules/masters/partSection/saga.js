@@ -23,7 +23,7 @@ function* addPartSectionSaga({ sectionName }) {
     } catch (error) {
         yield put({
             type: Actions.ADD_PART_SECTION_ERROR,
-            error: error,
+            error: error.error,
         });
     }
 }
@@ -81,7 +81,7 @@ function* updatePartSectionSaga({datas}) {
     } catch (error) {
         yield put({
             type: Actions.UPDATE_PART_SECTION_ERROR,
-            updateError: "can't update record!"
+            updateError: "Same record exist in list!"
         })
     }
 }

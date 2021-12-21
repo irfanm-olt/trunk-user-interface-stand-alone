@@ -17,7 +17,10 @@ import {
     loadPartDetail,
     deleteEnquiry,
     getEnquirybyID,
-    updateEnquiryCar
+    updateEnquiryCar,
+    updateEnquiryPartHeader,
+    loadPartHeader,
+    deletepartPrice
 } from './service';
 
 /**
@@ -71,12 +74,16 @@ function* loadMasterSaga({ enquiryID }) {
 /**
  * LOAD PARTS
  */
-function* loadPartsSaga() {
+function* loadPartsSaga({ enquiryID }) {
 try {
-    const { data } = yield call(fetchParts);
+    const { data, partHeaders } = yield all({
+        data: call(fetchParts),
+        partHeaders: call(loadPartHeader, { enquiryID })
+    });
     yield put({
         type: Actions.LOAD_PARTS_SUCCESS,
-        payload: data
+        payload: data.data,
+        partHeader: partHeaders.data
     });
 } catch (error) {
     yield put({
@@ -155,6 +162,25 @@ function* addEnquiryPartHeaderSaga(datas) {
     }
 }
 
+/**
+ *  UPDATE ENQUIRY PART HEADERS
+ */
+ function* updateEnquiryPartHeaderSaga(datas) {
+    try {
+        const { data } = yield call(updateEnquiryPartHeader, datas);
+        yield put({
+            type: Actions.UPDATE_ENQUIRY_PART_HEADER_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        yield put({
+            type: Actions.UPDATE_ENQUIRY_PART_HEADER_ERROR,
+            payload: error,
+        });
+    }
+}
+
 
 /**
  *  LOAD ENQUIRY PART HEADERS
@@ -216,6 +242,25 @@ function* addPartNumberSaga(datas) {
     } catch (error) {
         yield put({
             type: Actions.ADD_PART_PRICE_ERROR,
+            payload: error,
+        });
+    }
+}
+
+/**
+ *  DELETE ENQUIRY PART DETAILS
+ */
+ function* deletePartPriceSaga({ id }) {
+    try {
+        const { data } = yield call(deletepartPrice, { id });
+        yield put({
+            type: Actions.DELETE_PART_PRICE_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        yield put({
+            type: Actions.DELETE_PART_PRICE_ERROR,
             payload: error,
         });
     }
@@ -307,8 +352,10 @@ export default function* enquirySaga() {
     yield takeEvery(Actions.LOAD_ENQUIRY_PART_HEADER, loadEnquiryPartHeaderSaga);
     yield takeEvery(Actions.ADD_PART_NUMBER, addPartNumberSaga);
     yield takeEvery(Actions.ADD_PART_PRICE, addPartPriceSaga);
+    yield takeEvery(Actions.DELETE_PART_PRICE, deletePartPriceSaga);
     yield takeEvery(Actions.LOAD_PART_DETAILS, loadEnquiryPartDetailsSaga);
     yield takeEvery(Actions.LOAD_ENQUIRY_CAR_DETAILS, loadEnquiryCarDetailsSaga);
     yield takeEvery(Actions.LOAD_ENQUIRY_PART_DETAILS, loadPartDetailSaga);
     yield takeEvery(Actions.DELETE_ENQUIRY, deleteEnquirySaga);
+    yield takeEvery(Actions.UPDATE_ENQUIRY_PART_HEADER, updateEnquiryPartHeaderSaga);
 }
