@@ -20,7 +20,8 @@ import {
     updateEnquiryCar,
     updateEnquiryPartHeader,
     loadPartHeader,
-    deletepartPrice
+    deletepartPrice,
+    getCarsByManufacture
 } from './service';
 
 /**
@@ -50,14 +51,14 @@ function* loadVehicleSaga({ chassisNumber }) {
 function* loadMasterSaga({ enquiryID }) {
   try {
         const { car, manufacture, customer, enquiry } = yield all({
-            car: call(fetchCars),
+            //car: call(fetchCars),
             manufacture: call(fetchManufactures),
             customer: call(fetchCustomers),
             enquiry: call(getEnquirybyID, { enquiryID }),
         });
         yield put({
             type: Actions.LOAD_MASTER_SUCCESS,
-            car: car,
+            //car: car,
             manufacture: manufacture,
             customer: customer,
             enquiry: enquiry.data[0]
@@ -68,6 +69,27 @@ function* loadMasterSaga({ enquiryID }) {
             error: error,
         });
   }
+}
+
+/**
+ * LOAD CARS BY MANUFACTURE
+ */
+function* loadCarbyManufacture({id}) {
+    try {
+        const { data } = yield call(getCarsByManufacture, {
+            id
+        });
+        yield put({
+            type: Actions.LOAD_CARS_BY_MANUFACTURE_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        yield put({
+            type: Actions.LOAD_CARS_BY_MANUFACTURE_ERROR,
+            payload: error,
+        });
+    }
 }
 
 
@@ -358,4 +380,5 @@ export default function* enquirySaga() {
     yield takeEvery(Actions.LOAD_ENQUIRY_PART_DETAILS, loadPartDetailSaga);
     yield takeEvery(Actions.DELETE_ENQUIRY, deleteEnquirySaga);
     yield takeEvery(Actions.UPDATE_ENQUIRY_PART_HEADER, updateEnquiryPartHeaderSaga);
+    yield takeEvery(Actions.LOAD_CARS_BY_MANUFACTURE, loadCarbyManufacture);
 }

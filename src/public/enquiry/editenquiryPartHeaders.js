@@ -24,7 +24,7 @@ constructor(props) {
   this.state = {
     collapsed: true,
     showElements: true,
-    enquiryPartHeaders: [],
+    enquiryPartHeaders: [{ index: Math.random(), partName: '', quantity: '' }],
     deletedRecord: [],
     changeKey: '',
   }
@@ -68,12 +68,14 @@ handleSubmit = (e) => {
   let ManufactureEntry = [];
   for(var i=0;i<this.state.enquiryPartHeaders.length;i++)
   {
+    if(i!==0) {
       if(this.state.enquiryPartHeaders[i].partName==='' || this.state.enquiryPartHeaders[i].quantity==='')
       {
           NotificationManager.warning("Please Fill up Required Field.");
           return false;
       }
-      ManufactureEntry.push(this.state.enquiryPartHeaders[i].partName);
+    }
+    ManufactureEntry.push(this.state.enquiryPartHeaders[i].partName);
   }
 
   // check duplicate entry

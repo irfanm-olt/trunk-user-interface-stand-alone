@@ -14,6 +14,13 @@ export function loadMasters({ enquiryID  }) {
     }
 }
 
+export function loadCarsbyManufacture({id}) {
+    return {
+        type: Actions.LOAD_CARS_BY_MANUFACTURE,
+        id
+    }
+}
+
 export function loadParts({ enquiryID }) {
     return {
         type: Actions.LOAD_PARTS,

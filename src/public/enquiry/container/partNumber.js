@@ -98,7 +98,7 @@ const PartNumber = (props) => {
                         <CLabel htmlFor="appendedInput" className="text-center">{}</CLabel>
                             <div className="controls text-right" >
                                 {/* <CButton color="secondary" className="mfe-3" to="/enquiry"><CIcon name="cil-x" /> Cancel</CButton> */}
-                                <CButton color="secondary" className="mfe-3" to="/enquiry">Delete</CButton>
+                                <CButton color="secondary" className="mfe-3" to="/enquiry">Cancel</CButton>
                             </div>
                     </CFormGroup>
                 </td>

@@ -67,7 +67,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Part',
+    name: 'Parts',
     route: '/masters',
     to: '/masters/parts',
     fontIcon: 'fa fa-cogs fa-lg',

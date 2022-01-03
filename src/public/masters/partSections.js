@@ -188,7 +188,7 @@ class PartSection extends Component {
                             id="sectionName" 
                             name="sectionName"
                             value={this.state.sectionName}
-                            placeholder="Eg: Break System"
+                            placeholder="Eg: Brake System"
                             onChange={this.onChange}
                           />
                       </CCol>

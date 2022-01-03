@@ -20,7 +20,12 @@ import CIcon from '@coreui/icons-react'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
-import { loadVehicle, loadMasters, addEnquiryCar } from 'src/modules/enquiry/actions';
+import { 
+  loadVehicle, 
+  loadMasters, 
+  addEnquiryCar,
+  loadCarsbyManufacture
+} from 'src/modules/enquiry/actions';
 import CreatableSelect from 'react-select/creatable';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -124,6 +129,9 @@ handleEnquiry = e => {
 };
 
 handleChange1 = ( manufacture ) => {
+    this.setState({ carName: '' })
+    const id = manufacture.value;
+    this.props.loadCarsbyManufacture({id})
     this.setState({ manufacture });
 };
 
@@ -141,9 +149,9 @@ getVehicleInfo = chassisNumber => {
 }
 
 render() {
-  const { manufacture, customer, vehicleLoading, car, enquiry } = this.props.data;
-  // car
-  const carsOptions = car ? car.data.map((item, index) => {
+  const { manufacture, customer, vehicleLoading, enquiry, car } = this.props.data;
+  // // car
+  const carsOptions = car ? car.map((item, index) => {
     return { value: item.ID, label: item.CarName }
   }): null;
 
@@ -151,6 +159,7 @@ render() {
   const manufactureOptions = manufacture ? manufacture.data.map((item, index) => {
     return { value: item.ID, label: item.Name }
   }): null;
+
   return (
     <>
         <CRow>
@@ -158,7 +167,7 @@ render() {
         </CRow>
         <CForm className="form-horizontal" onSubmit={this.handleEnquiry}>
           <CRow>
-            <CCol xs="12" sm="6" lg="5" className="pfs-md-5 col-md-offset-1 col-lg-offset-1">
+            <CCol xs="12" sm="6" lg="5" className="pfs-md-5 offset-md-1 offset-lg-1">
               <CFade timeout={300} in={this.state.showElements} unmountOnExit={true}>
                 <CCard>
                   <CCollapse show={this.state.collapsed} timeout={1000}>
@@ -243,7 +252,6 @@ render() {
                               <CInputGroupAppend>
                                 {
                                   vehicleLoading ?
-                                  // <CButton type="button" color="primary"> Searching...</CButton>
                                   <button type="button" className="btn btn-primary" >Searching...</button>
                                   :
                                   <button 
@@ -253,7 +261,6 @@ render() {
                                   >
                                       <i class="fa fa-search" aria-hidden="true"></i> Search
                                   </button>
-                                  // <CButton onClick={() => { this.getVehicleInfo(this.state.chassisNumber) }} type="button" color="primary"><CIcon name="cil-magnifying-glass" /> Search</CButton>
                                 }
                               </CInputGroupAppend>
                             </CInputGroup>
@@ -322,5 +329,9 @@ const mapStateToProps = state => ({
 });
 export default connect(
 mapStateToProps,
-{ loadVehicle, loadMasters, addEnquiryCar }
+{ loadVehicle, 
+  loadMasters, 
+  addEnquiryCar,
+  loadCarsbyManufacture
+}
 )(EnquiryCarDetail);

@@ -324,7 +324,7 @@ class EditCustomer extends Component {
                     </CFormGroup>
                     <CFormGroup row>
                       <CCol md="4">
-                          <CLabel htmlFor="hf-password">Adress</CLabel>
+                          <CLabel htmlFor="hf-password">Address</CLabel>
                       </CCol>
                       <CCol xs="12" md="8">
                           <CInput 

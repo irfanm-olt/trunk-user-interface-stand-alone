@@ -37,7 +37,11 @@ export const loadPartHeader = ({ enquiryID }) =>
 
 // get manufacture id by enquiry id
 export const getManufactureByID = ({ enquiryID }) => 
-    request.post(`/enquiryCarDetails/getManufactureByID`, { enquiryID })
+    request.post(`/enquiryCarDetails/getManufactureByID`, { enquiryID });
+
+// get cars by manufacture id
+export const getCarsByManufacture = ({id}) => 
+    request.post(`/enquiryCarDetails/getCarsbyManufacture`,  {id} );
 
 // add enquiry part header
 export const addEnquiryPartHeader = ({ datas }) =>

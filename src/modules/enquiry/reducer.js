@@ -58,7 +58,7 @@ export default function enquiryReducer(state = initState, action) {
                 loading: false,
                 customer: action.customer,
                 manufacture: action.manufacture,
-                car: action.car,
+                //car: action.car,
                 enquiry: action.enquiry
             }
         case Actions.LOAD_MASTER_ERROR:
@@ -89,6 +89,22 @@ export default function enquiryReducer(state = initState, action) {
                 error: action.error,
                 addEnquirySuccess: false,
                 data:''
+            }
+        case Actions.LOAD_CARS_BY_MANUFACTURE:
+            return {
+                ...state,
+                loading: true,
+            };
+        case Actions.LOAD_CARS_BY_MANUFACTURE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                car: action.payload
+            }
+        case Actions.LOAD_CARS_BY_MANUFACTURE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
             }
         /**
          * update enquiry car

@@ -1,6 +1,6 @@
 import React from "react";
 import CIcon from '@coreui/icons-react'
-import { CButton } from "@coreui/react";
+import { CButton, CInput } from "@coreui/react";
 const EditenquiryPartHeaders = (props) => {
     return(
         props.enquiryPartHeaders.map((item, index) => {
@@ -24,22 +24,21 @@ const EditenquiryPartHeaders = (props) => {
                         </select>
                     </td>
                     <td>
-                        <select className="custom-select" data-id={index} id={quantity} name="quantity" value={ item.quantity? item.quantity: null}>
-                            <option value="">Select Quantity</option>
-                            {[...Array(10)].map((x, i) =>
-                                <option value={i+1}>{i+1}</option>
-                            )}
-                        </select>
+                        <CInput
+                            placeholder="Enter Quantity"
+                            className="custom-select" 
+                            data-id={index} 
+                            id={quantity} 
+                            name="quantity"
+                            type="number"
+                            value={ item.quantity? item.quantity: null}
+                        />
                     </td>
                     <td>
                         {
                             index === 0 ?
                             <>
-                                <button onClick={() => props.delete(item)} className="action-button">
-                                    <CIcon name="cil-trash" height="18" alt="Logo"/>
-                                </button>
                                 <i onClick={() => props.add()} class="fa fa-plus clickable" aria-hidden="true"></i>
-                                {/* <a  onClick={() => props.add()} name="add" height="25" alt="Logo"><CButton className="btn-primary">+</CButton></a> */}
                             </>
                             :
                                 <button onClick={() => props.delete(item)} className="action-button">

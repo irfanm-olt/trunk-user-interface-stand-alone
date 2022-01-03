@@ -1,6 +1,6 @@
 import React from "react";
 import CIcon from '@coreui/icons-react'
-import { CButton } from "@coreui/react";
+import { CInput, CButton } from "@coreui/react";
 const EnquiryPartHeaders = (props) => {
     return(
         props.enquiryPartHeaders.map((item, index) => {
@@ -24,12 +24,14 @@ const EnquiryPartHeaders = (props) => {
                         </select>
                     </td>
                     <td>
-                        <select className="custom-select" data-id={index} id={quantity} name="quantity">
-                            <option value="">Select Quantity</option>
-                            {[...Array(10)].map((x, i) =>
-                                <option value={i+1}>{i+1}</option>
-                            )}
-                        </select>
+                        <CInput
+                            placeholder="Enter Quantity"
+                            className="custom-select" 
+                            data-id={index} 
+                            id={quantity} 
+                            name="quantity"
+                            type="number"
+                        />
                     </td>
                     <td>
                         {

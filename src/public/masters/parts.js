@@ -187,7 +187,7 @@ class Part extends Component {
                           name="partSection"
                           value={this.state.partSection}
                           options={options}
-                          placeholder="Eg: Toyota"
+                          placeholder="Eg: Brake System"
                           onChange={this.handleChange}
                         />
                       </CCol>
@@ -197,7 +197,7 @@ class Part extends Component {
                             id="partName" 
                             name="partName"
                             value={this.state.partName}
-                            placeholder="Eg: Yaris"
+                            placeholder="Eg: Front Brake Pad"
                             onChange={this.onChange}
                           />
                       </CCol>

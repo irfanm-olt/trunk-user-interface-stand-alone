@@ -77,6 +77,13 @@ const PartPrice = (props) => {
         datas.remark = remark;
         datas.partheaderID = props.partHeaderData.ID;
         props.addPartPrice({datas});
+
+        // make form empty
+        setBrand('');
+        setproductNumber('');
+        setCostPrice('');
+        setSalePrice('');
+        setRemark('');
     }
 
     const { priceData } = props;
